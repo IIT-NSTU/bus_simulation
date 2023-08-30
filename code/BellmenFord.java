@@ -17,14 +17,14 @@ class PathDistance {
 public class BellmanFord {
     int vertices, edge;
     int edge_ind = 0;
-    PathDistance[] distanceArray;
+    PathDistance[] dist_arr;
     int[] distances;
     int[] previous;
 
     BellmanFord(int vertices, int edge) {
         this.vertices = vertices;
         this.edge = edge;
-        distanceArray = new PathDistance[edge];
+        dist_arr = new PathDistance[edge];
         distances = new int[vertices];
         previous = new int[vertices];
         Arrays.fill(distances, Integer.MAX_VALUE);
@@ -32,18 +32,18 @@ public class BellmanFord {
     }
 
     void addEdge(char start, char end, float weight) {
-        distanceArray[edge_ind++] = new PathDistance(start, end, weight);
+        dist_arr[edge_ind++] = new PathDistance(start, end, weight);
     }
 
     void shortestPath(char source, char destination) {
         distances[source - 'A'] = 0;
         for (int i = 0; i < vertices - 1; i++) {
             for (int j = 0; j < edge; j++) {
-                char u = distanceArray[j].start;
-                char v = distanceArray[j].end;
-                float weight = distanceArray[j].weight;
+                char u = dist_arr[j].start;
+                char v = dist_arr[j].end;
+                float weight = dist_arr[j].weight;
                 if (distances[u - 'A'] != Integer.MAX_VALUE && distances[u - 'A'] + weight < distances[v - 'A']) {
-                    distances[v - 'A'] = distances[u - 'A'] + weight;
+                    distances[v - 'A'] = distances[u - 'A'] + (int)weight;
                     previous[v - 'A'] = u - 'A';
                 }
             }
@@ -52,10 +52,10 @@ public class BellmanFord {
         
         for(int j=0;j<edge;j++)
         {
-            char u=distanceArray[j].start;
-            char v=distanceArray[j].end;
-            float weight=distanceArray[j].weight;
-            if(distance[u-'A']!=Integer.MAX_VALUE&& distance[u-'A']+weight<distance[v-'A'])
+            char u=dist_arr[j].start;
+            char v=dist_arr[j].end;
+            float weight=dist_arr[j].weight;
+            if(distances[u-'A']!=Integer.MAX_VALUE&& distances[u-'A']+weight<distances[v-'A'])
             {
                 System.out.println("negative weight cycle");
                 return;
@@ -64,9 +64,9 @@ public class BellmanFord {
         System.out.println("shortest path from"+source+" to other nodfe: ");
         for(int i=0;i<vertices;i++)
         {
-            if(distance[i]!=Integer.MAX_VALUE)
+            if(distances[i]!=Integer.MAX_VALUE)
             {
-                System.out.println("Distance to"+(char) (i+'A')+" :"+distance[i]);
+                System.out.println("Distance to"+(char) (i+'A')+" :"+distances[i]);
 
             }
             else
@@ -75,7 +75,7 @@ public class BellmanFord {
             }
             }
             
-            if(distance[destination-'A']!=Integer.MAX_VALUE)
+            if(distances[destination-'A']!=Integer.MAX_VALUE)
             {
                 System.out.print("shortest path from "+source+" to"+destination+" : ");
                 printPath(source-'A',destination-'A',destination-'A');
