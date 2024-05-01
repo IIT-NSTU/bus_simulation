@@ -10,7 +10,6 @@ public class Board {
             }
         }
     }
-
     public void print_board(BusSimulation busSimulation) {
         for (int i = 0; i< busSimulation.row; i++) {
             for (int j = 0; j < busSimulation.col; j++) {
